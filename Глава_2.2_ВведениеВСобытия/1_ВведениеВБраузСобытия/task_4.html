@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    #field {
+      width: 200px;
+      height: 150px;
+      border: 10px solid black;
+      background-color: #00FF00;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    img {
+        transition: 1s;
+        position: absolute;
+    }
+  </style>
+</head>
+
+<body style="height:2000px">
+
+  Нажмите на поле для перемещения мяча.
+  <br> Мяч не должен выходить за границы поля.
+
+
+  <div id="field">
+    <img src="https://ru.js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  </div>
+
+
+</body>
+<script>
+    const field = document.getElementById('field');
+    const ball = document.getElementById('ball');
+
+    field.addEventListener('click', (e) => {
+
+        const ballCoords = {
+            left: e.clientX - ball.clientWidth/2,
+            top: e.clientY - ball.clientHeight/2
+        }
+
+        const fieldCoords = field.getBoundingClientRect();
+        /** 
+         * fieldCoords = {
+         * top:,
+         * right:,
+         * bottom:,
+         * left:,
+         * }
+         * **/
+
+        const ballSize = {
+            width: ball.clientWidth,
+            height: ball.clientHeight
+        }
+        
+        ball.style.left = ballCoords.left + 'px';
+        ball.style.top = ballCoords.top + 'px';
+
+        if (ballCoords.left + ballSize.width > fieldCoords.right) {
+
+            ball.style.left = fieldCoords.right - ballSize.width + 'px';
+
+        } else if (ballCoords.left - ballSize.width < fieldCoords.left) {
+
+            ball.style.left = fieldCoords.left + 'px';
+        }
+
+        if (ballCoords.top - ballSize.height < fieldCoords.top) {
+
+            ball.style.top = fieldCoords.top + 'px';
+
+        } else if (ballCoords.top + ballSize.height > fieldCoords.bottom) {
+
+            ball.style.top = fieldCoords.bottom - ballSize.height + 'px';
+        }
+    });
+</script>
+</html>
